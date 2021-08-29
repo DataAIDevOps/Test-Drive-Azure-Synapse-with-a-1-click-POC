@@ -54,7 +54,7 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"# Test branch policy in GitHub (not Azure Repo)\n",
+					"# Test branch policy in GitHub (not Azure Repo), No Direct Commit to main, so a PR is required\n",
 					"import matplotlib.pyplot as plt\n",
 					"\n",
 					"from pyspark.sql.functions import unix_timestamp\n",

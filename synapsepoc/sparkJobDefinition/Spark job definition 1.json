@@ -1,0 +1,28 @@
+{
+	"name": "Spark job definition 1",
+	"properties": {
+		"targetBigDataPool": {
+			"referenceName": "ws1sparkpool1",
+			"type": "BigDataPoolReference"
+		},
+		"requiredSparkVersion": "2.4",
+		"language": "scala",
+		"jobProperties": {
+			"name": "Spark job definition 1",
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "3",
+				"spark.autotune.trackingId": "5f0fac70-e536-4a2d-aceb-c9e01e7e2257"
+			},
+			"args": [],
+			"jars": [],
+			"files": [],
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 3
+		}
+	}
+}

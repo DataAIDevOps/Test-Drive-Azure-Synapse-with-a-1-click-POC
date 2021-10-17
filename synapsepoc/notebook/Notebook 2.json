@@ -1,0 +1,78 @@
+{
+	"name": "Notebook 2",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "ws1sparkpool1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "9b26d8c6-2f08-4ce9-82c6-ee59f846ef69"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/7d8b9ec4-dd88-4dd8-89a7-9fb720641a6a/resourceGroups/jlsynapse1click/providers/Microsoft.Synapse/workspaces/acmpl6ze26l4dic6pocws1/bigDataPools/ws1sparkpool1",
+				"name": "ws1sparkpool1",
+				"type": "Spark",
+				"endpoint": "https://acmpl6ze26l4dic6pocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 5,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\n",
+					"blob_account_name = \"fmcwkspstorageaccount\"\n",
+					"blob_container_name = \"fmcwkspcontainer\"\n",
+					"from pyspark.sql import SparkSession\n",
+					"\n",
+					"sc = SparkSession.builder.getOrCreate()\n",
+					"token_library = sc._jvm.com.microsoft.azure.synapse.tokenlibrary.TokenLibrary\n",
+					"blob_sas_token = token_library.getConnectionString(\"AzureBlobStoragefmc2\")\n",
+					"\n",
+					"spark.conf.set(\n",
+					"    'fs.azure.sas.%s.%s.blob.core.windows.net' % (blob_container_name, blob_account_name),\n",
+					"    blob_sas_token)\n",
+					"df = spark.read.load('wasbs://fmcwkspcontainer@fmcwkspstorageaccount.blob.core.windows.net/fmcdatasink/2021-10-17T02:36:07.9290672Zfmcdemo1.parquet', format='parquet')\n",
+					"df.write.mode(\"overwrite\").saveAsTable(\"default.FMCworkshopSparkTable\")"
+				],
+				"execution_count": 1
+			}
+		]
+	}
+}
